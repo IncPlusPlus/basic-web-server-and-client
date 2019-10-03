@@ -1,4 +1,4 @@
-package io.github.incplusplus.socketcomms.enums;
+package io.github.incplusplus.socketcomms.server.enums;
 
 public enum RequestMethod
 {

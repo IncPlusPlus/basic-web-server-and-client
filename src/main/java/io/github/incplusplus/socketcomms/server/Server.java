@@ -1,6 +1,6 @@
-package io.github.incplusplus.socketcomms;
+package io.github.incplusplus.socketcomms.server;
 
-import io.github.incplusplus.socketcomms.enums.RequestMethod;
+import io.github.incplusplus.socketcomms.server.enums.RequestMethod;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.util.List;
 
-import static io.github.incplusplus.socketcomms.StupidSimpleLogger.log;
+import static io.github.incplusplus.socketcomms.server.StupidSimpleLogger.log;
 
 public class Server
 {

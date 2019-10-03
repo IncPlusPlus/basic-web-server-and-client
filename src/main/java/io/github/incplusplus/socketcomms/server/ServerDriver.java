@@ -1,4 +1,4 @@
-package io.github.incplusplus.socketcomms;
+package io.github.incplusplus.socketcomms.server;
 
 import java.io.IOException;
 
