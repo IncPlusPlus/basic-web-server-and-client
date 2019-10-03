@@ -117,8 +117,6 @@ public class Server
 			case GET:
 				performGet(connectionSocket, outToClient, URI);
 				break;
-			case POST:
-				break;
 			default:
 				outToClient.writeBytes("HTTP/1.1 501 Not Implemented");
 				connectionSocket.close();
