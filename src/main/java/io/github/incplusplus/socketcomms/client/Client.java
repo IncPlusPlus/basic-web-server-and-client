@@ -1,4 +1,4 @@
-package io.github.incplusplus.socketcomms.server;
+package io.github.incplusplus.socketcomms.client;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
