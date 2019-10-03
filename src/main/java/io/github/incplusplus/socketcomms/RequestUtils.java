@@ -1,4 +1,4 @@
-package io.github.incplusplus.stupidsimpleserverclient;
+package io.github.incplusplus.socketcomms;
 
 import java.io.BufferedReader;
 import java.io.IOException;
