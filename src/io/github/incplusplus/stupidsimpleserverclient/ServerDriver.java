@@ -11,6 +11,6 @@ public class ServerDriver
 		
 		Server myDefaultServer = new Server();
 		myDefaultServer.start(1234);
-		System.out.println("io.github.incplusplus.stupidsimpleserverclient.Server stopped.");
+		System.out.println("Server stopped.");
 	}
 }

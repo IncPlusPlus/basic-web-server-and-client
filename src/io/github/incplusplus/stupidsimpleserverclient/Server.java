@@ -92,7 +92,7 @@ public class Server
 		//If something else happens, don't bother
 		catch (IOException e)
 		{
-			outToClient.writeBytes("HTTP/1.1 500 Internal io.github.incplusplus.stupidsimpleserverclient.Server Error");
+			outToClient.writeBytes("HTTP/1.1 500 Internal Server Error");
 			connectionSocket.close();
 			e.printStackTrace();
 		}
