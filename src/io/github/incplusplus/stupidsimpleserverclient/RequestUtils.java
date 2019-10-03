@@ -1,3 +1,5 @@
+package io.github.incplusplus.stupidsimpleserverclient;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

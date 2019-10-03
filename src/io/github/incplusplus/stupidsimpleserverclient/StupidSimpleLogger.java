@@ -1,3 +1,5 @@
+package io.github.incplusplus.stupidsimpleserverclient;
+
 public class StupidSimpleLogger
 {
 	private static boolean enabled;

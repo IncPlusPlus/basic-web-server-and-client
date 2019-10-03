@@ -1,4 +1,6 @@
-import enums.RequestMethod;
+package io.github.incplusplus.stupidsimpleserverclient;
+
+import io.github.incplusplus.stupidsimpleserverclient.enums.RequestMethod;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -7,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.util.List;
 
-import static StupidSimpleLogger.log;
+import static io.github.incplusplus.stupidsimpleserverclient.StupidSimpleLogger.log;
 
 public class Server
 {
@@ -90,7 +92,7 @@ public class Server
 		//If something else happens, don't bother
 		catch (IOException e)
 		{
-			outToClient.writeBytes("HTTP/1.1 500 Internal Server Error");
+			outToClient.writeBytes("HTTP/1.1 500 Internal io.github.incplusplus.stupidsimpleserverclient.Server Error");
 			connectionSocket.close();
 			e.printStackTrace();
 		}
