@@ -30,7 +30,7 @@ public class Server
 		socket.close();
 	}
 	
-	private class ClientHandler extends Thread
+	private static class ClientHandler extends Thread
 	{
 		private Socket connectionSocket;
 		
