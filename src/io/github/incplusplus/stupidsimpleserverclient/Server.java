@@ -51,12 +51,12 @@ public class Server
 				List<String> headerLines = RequestUtils.getHeaderLines(inFromClient);
 				String body = RequestUtils.getBody(inFromClient);
 				log("RECEIVED: ");
-				headerLines.forEach(System.out::println);
-				System.out.println("\nBody:");
-				System.out.println(body);
+				headerLines.forEach(StupidSimpleLogger::log);
+				log("\nBody:");
+				log(body);
 				
 				operateOnRequest(connectionSocket, outToClient, headerLines, body);
-				System.out.println("done sending!!!!!!!!!");
+				log("done sending!!!!!!!!!");
 				connectionSocket.close();
 			}
 			catch (IOException e)
