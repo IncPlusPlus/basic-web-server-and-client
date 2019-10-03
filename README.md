@@ -1,0 +1,2 @@
+# Stupid Simple Server & Client
+This is a lab assignment from my Network Programming class that I decided to take a bit beyond what was originally expected. Please bear in mind, there are many things here that I would do differently like making requests and responses their own proper classes.
