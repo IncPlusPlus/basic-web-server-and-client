@@ -5,9 +5,9 @@ import io.github.incplusplus.socketcomms.server.enums.RequestMethod;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.util.List;
+import java.util.Objects;
 
 import static io.github.incplusplus.socketcomms.server.StupidSimpleLogger.log;
 
@@ -15,19 +15,57 @@ public class Server
 {
 	private ServerSocket socket;
 	
-	void start(int port) throws IOException
-	{
-		socket = new ServerSocket(port);
-		System.out.println("Ready and waiting!");
-		while (true)
-		{
-			new ClientHandler(socket.accept()).start();
+	void start(int port) {
+		class ServerStartTask implements Runnable {
+			int port;
+			ServerStartTask(int p) { port = p; }
+			public void run() {
+				while (true)
+				{
+					try
+					{
+						socket = new ServerSocket(port);
+						System.out.println("Ready and waiting!");
+						new ClientHandler(socket.accept()).start();
+					}
+					catch (IOException e)
+					{
+						e.printStackTrace();
+						System.out.println("FATAL ERROR. AN ERROR ESCAPED OUT INTO THE MAIN SERVER'S THREAD.RUN() METHOD");
+					}
+					finally
+					{
+						System.out.println("Server shutting down");
+						try
+						{
+							socket.close();
+						}
+						catch (IOException e)
+						{
+							e.printStackTrace();
+							System.out.println("FATAL ERROR. THE SERVER ENCOUNTERED AN ERROR DURING SHUTDOWN");
+						}
+					}
+				}
+			}
 		}
+		Thread t = new Thread(new ServerStartTask(port));
+		t.setDaemon(true);
+		t.start();
 	}
 	
-	public void stop() throws IOException
+	public void stop()
 	{
-		socket.close();
+		System.out.println("Server shutting down");
+		try
+		{
+			socket.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			System.out.println("FATAL ERROR. THE SERVER ENCOUNTERED AN ERROR DURING SHUTDOWN");
+		}
 	}
 	
 	private class ClientHandler extends Thread
@@ -64,7 +102,7 @@ public class Server
 			catch (IOException e)
 			{
 				e.printStackTrace();
-				System.out.println("FATAL ERROR. AN ERROR ESCAPED OUT INTO THE THREAD.RUN() METHOD");
+				System.out.println("FATAL ERROR. AN ERROR ESCAPED OUT INTO THE CLIENT HANDLER'S THREAD.RUN() METHOD");
 			}
 		}
 	}
@@ -81,7 +119,10 @@ public class Server
 		try
 		{
 			log("Getting resource with URI: " + URI);
-			getClass().getResourceAsStream(URI).transferTo(outToClient);
+			InputStream requestedResource = getClass().getResourceAsStream(URI);
+			if(Objects.isNull(requestedResource)) {throw new NoSuchFileException(URI);}
+			outToClient.writeBytes("HTTP/1.1 200 OK" + RequestUtils.END_OF_HEADER);
+			requestedResource.transferTo(outToClient);
 		}
 		//Send a 404 if the file doesn't exist
 		catch (NoSuchFileException | NullPointerException e)
