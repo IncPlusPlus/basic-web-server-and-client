@@ -84,7 +84,7 @@ public class Server
 			getClass().getResourceAsStream(URI).transferTo(outToClient);
 		}
 		//Send a 404 if the file doesn't exist
-		catch (NoSuchFileException e)
+		catch (NoSuchFileException | NullPointerException e)
 		{
 			outToClient.writeBytes("HTTP/1.1 404 Not Found" + RequestUtils.END_OF_HEADER);
 			connectionSocket.close();
