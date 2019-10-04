@@ -30,7 +30,7 @@ public class MiscUtils
 		
 		outToServer.writeBytes(verb.name() + " " + URI + " HTTP/1.1");
 		outToServer.writeBytes(END_OF_HEADER);
-		outToServer.close();
+//		outToServer.close();
 		
 		String response = getInputStreamAsString(connectionSocket.getInputStream());
 		connectionSocket.close();

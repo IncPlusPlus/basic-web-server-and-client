@@ -15,11 +15,16 @@ public class Server
 {
 	private ServerSocket socket;
 	
-	void start(int port) {
-		class ServerStartTask implements Runnable {
+	void start(int port)
+	{
+		class ServerStartTask implements Runnable
+		{
 			int port;
+			
 			ServerStartTask(int p) { port = p; }
-			public void run() {
+			
+			public void run()
+			{
 				while (true)
 				{
 					try
@@ -31,7 +36,8 @@ public class Server
 					catch (IOException e)
 					{
 						e.printStackTrace();
-						System.out.println("FATAL ERROR. AN ERROR ESCAPED OUT INTO THE MAIN SERVER'S THREAD.RUN() METHOD");
+						System.out.println(
+								"FATAL ERROR. AN ERROR ESCAPED OUT INTO THE MAIN SERVER'S THREAD.RUN() METHOD");
 					}
 					finally
 					{
@@ -81,6 +87,16 @@ public class Server
 		{
 			try
 			{
+				/* TODO:
+				 * So now the server and client work in tandem.
+				 * Thing is, I don't know how to properly block without being vulnerable to DOS attacks.
+				 * Because of this, I searched for alternatives to blocking and found the do{}while()
+				 * loop solution that's in RequestUtils.getInputStreamAsString. Because of this,
+				 * ClientHandler's run() method will proceed before the client has had the chance to finish talking.
+				 *
+				 * This is something that could be greatly improved and make this project stable
+				 * enough for everyday usage.
+				 */
 				InputStream inputStream = connectionSocket.getInputStream();
 				BufferedReader inFromClient = new BufferedReader(
 						new StringReader(RequestUtils.getInputStreamAsString(inputStream)));
@@ -120,7 +136,7 @@ public class Server
 		{
 			log("Getting resource with URI: " + URI);
 			InputStream requestedResource = getClass().getResourceAsStream(URI);
-			if(Objects.isNull(requestedResource)) {throw new NoSuchFileException(URI);}
+			if (Objects.isNull(requestedResource)) {throw new NoSuchFileException(URI);}
 			outToClient.writeBytes("HTTP/1.1 200 OK" + RequestUtils.END_OF_HEADER);
 			requestedResource.transferTo(outToClient);
 		}
@@ -145,8 +161,8 @@ public class Server
 	}
 	
 	private void operateOnRequest(Socket connectionSocket, DataOutputStream outToClient,
-	                                     List<String> headerLines,
-	                                     String body) throws IOException
+	                              List<String> headerLines,
+	                              String body) throws IOException
 	{
 		RequestUtils.validateFirstHeaderLine(headerLines);
 		String[] firstLineElements = headerLines.get(0).split("\\s");
