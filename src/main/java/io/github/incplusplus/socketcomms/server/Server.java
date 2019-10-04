@@ -80,6 +80,7 @@ public class Server
 		}
 		try
 		{
+			log("Getting resource with URI: " + URI);
 			getClass().getResourceAsStream(URI).transferTo(outToClient);
 		}
 		//Send a 404 if the file doesn't exist
