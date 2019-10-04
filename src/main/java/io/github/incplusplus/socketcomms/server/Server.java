@@ -30,7 +30,7 @@ public class Server
 		socket.close();
 	}
 	
-	private static class ClientHandler extends Thread
+	private class ClientHandler extends Thread
 	{
 		private Socket connectionSocket;
 		
@@ -57,6 +57,8 @@ public class Server
 				
 				operateOnRequest(connectionSocket, outToClient, headerLines, body);
 				log("done sending!!!!!!!!!");
+				inFromClient.close();
+				outToClient.close();
 				connectionSocket.close();
 			}
 			catch (IOException e)
@@ -67,7 +69,7 @@ public class Server
 		}
 	}
 	
-	private static void performGet(Socket connectionSocket, DataOutputStream outToClient, String URI) throws IOException
+	private void performGet(Socket connectionSocket, DataOutputStream outToClient, String URI) throws IOException
 	{
 		//Test endpoint
 		if (URI.equals("/"))
@@ -76,11 +78,9 @@ public class Server
 			connectionSocket.close();
 			return;
 		}
-		File desiredFile = new File(URI);
-		//Don't use a file that's bigger than 2GB please!
 		try
 		{
-			outToClient.write(Files.readAllBytes(desiredFile.toPath()));
+			getClass().getResourceAsStream(URI).transferTo(outToClient);
 		}
 		//Send a 404 if the file doesn't exist
 		catch (NoSuchFileException e)
@@ -102,7 +102,7 @@ public class Server
 		}
 	}
 	
-	private static void operateOnRequest(Socket connectionSocket, DataOutputStream outToClient,
+	private void operateOnRequest(Socket connectionSocket, DataOutputStream outToClient,
 	                                     List<String> headerLines,
 	                                     String body) throws IOException
 	{
