@@ -56,7 +56,7 @@ public class Server
 				log(body);
 				
 				operateOnRequest(connectionSocket, outToClient, headerLines, body);
-				log("done sending!!!!!!!!!");
+				log("Done servicing client!");
 				inFromClient.close();
 				outToClient.close();
 				connectionSocket.close();
