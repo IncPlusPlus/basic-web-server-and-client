@@ -83,7 +83,7 @@ public class Server
 			{
 				InputStream inputStream = connectionSocket.getInputStream();
 				BufferedReader inFromClient = new BufferedReader(
-						new StringReader(RequestUtils.getRawRequest(inputStream)));
+						new StringReader(RequestUtils.getInputStreamAsString(inputStream)));
 				DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
 				
 				List<String> headerLines = RequestUtils.getHeaderLines(inFromClient);
