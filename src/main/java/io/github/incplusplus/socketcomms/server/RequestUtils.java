@@ -68,10 +68,19 @@ public class RequestUtils
 	
 	public static String getInputStreamAsString(InputStream is) throws IOException
 	{
+		//todo fix all of this
+		// :facepalm:
 		int c;
 		StringBuilder raw = new StringBuilder();
 		do
 		{
+			try {
+				//hack to let slower clients keep up with server expectations
+				Thread.sleep(5);
+			}
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			c = is.read();
 			raw.append((char) c);
 		} while (is.available() > 0);

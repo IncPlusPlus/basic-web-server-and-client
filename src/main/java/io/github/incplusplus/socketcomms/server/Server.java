@@ -25,33 +25,28 @@ public class Server
 			
 			public void run()
 			{
-				while (true)
-				{
-					try
+				try {
+					socket = new ServerSocket(port);
+					System.out.println("Ready and waiting!");
+					while (true)
 					{
-						socket = new ServerSocket(port);
-						System.out.println("Ready and waiting!");
-						new ClientHandler(socket.accept()).start();
-					}
-					catch (IOException e)
-					{
-						e.printStackTrace();
-						System.out.println(
-								"FATAL ERROR. AN ERROR ESCAPED OUT INTO THE MAIN SERVER'S THREAD.RUN() METHOD");
-					}
-					finally
-					{
-						System.out.println("Server shutting down");
 						try
 						{
-							socket.close();
+							new ClientHandler(socket.accept()).start();
 						}
 						catch (IOException e)
 						{
 							e.printStackTrace();
-							System.out.println("FATAL ERROR. THE SERVER ENCOUNTERED AN ERROR DURING SHUTDOWN");
+							System.out.println(
+									"FATAL ERROR. THE CLIENT HANDLER ENCOUNTERED AN ERROR DURING CLOSING TIME");
 						}
 					}
+				}
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+				finally {
+					log("Server shutting down!");
 				}
 			}
 		}
